@@ -37,7 +37,7 @@ Then **check the route is free**: no existing `public/content/<route>/index.md` 
 
 Read the design **fresh** with the Figma MCP (designs change between runs — never rely on a read from an earlier turn): `get_metadata` for the frame tree, then `get_design_context` / `get_screenshot` on each region; `search_design_system` / `get_code_connect_map` for existing code mappings. Load the `figma-use` skill before any `use_figma` call.
 
-Produce a **component map**: every design region → the existing primitive + variant that renders it (`PageHero`, `Card`, `BigNumber`, `YouTube`, `Alert`, …), citing the design-system cheatsheet. The map must be **exhaustive** — walk the frame top to bottom and account for every region. A region you don't map is a region that silently won't ship.
+Produce a **component map** and **always show it to the user as a table** — three columns: **Region** (each design region, top to bottom) · **Maps to** (the existing primitive + variant that renders it — `PageHero`, `Card`, `BigNumber`, …) · **Status** (`reuse`, `missing asset`, `placeholder copy`, `missing data`, …). The map must be **exhaustive** — walk the frame top to bottom; a region you don't map is a region that silently won't ship. The table is the user's only window into what you saw in the frame — it's how they catch a misread or omission *before* it ships, so render it every run; never just reason about the mapping internally.
 
 **Node names lie.** A node called `Screenshot 2026-…` or `Frame 1789` is routinely real content — a stat band (`BigNumber`), a video embed (`YouTube`), a callout (`Alert`) — not a throwaway. Never omit a region because its name *looks* like a draft; `get_screenshot` it and see what it actually is before deciding.
 
@@ -47,7 +47,7 @@ Produce a **component map**: every design region → the existing primitive + va
 
 **Pressure-test the authoring fork.** The map can reveal a region markdown shortcodes can't express — an interactive widget, a data-backed list, a bespoke multi-column grid, or cards with **lucide** icons (the markdown `<Card>`/`MarkdownCard` shortcode takes only an `emoji` prop, no lucide). Any of these means the page wants to be App Router. If Step 1 said markdown, surface the conflict and re-confirm before scaffolding — flipping it later is a rewrite.
 
-**Done when:** every region is accounted for — mapped, flagged for an approved variant, or raised as missing data — and the authoring fork still holds.
+**Done when:** the component-map table has been shown to the user and they've confirmed or corrected it; every region is accounted for — mapped, flagged for an approved variant, or raised as missing data — and the authoring fork still holds.
 
 ## Step 3 — Pick the layout and hero
 
